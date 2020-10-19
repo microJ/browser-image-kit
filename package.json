@@ -1,12 +1,13 @@
 {
-  "name": "image-kit",
+  "name": "browser-image-kit",
   "version": "0.1.0",
   "description": "everything for image in the browser",
   "keywords": [
-    "base64",
     "image",
     "image-kit",
-    "image kit browser"
+    "browser-image-kit",
+    "browser image kit",
+    "base64"
   ],
   "main": "dist/lib.cjs.js",
   "module": "dist/lib.esm.js",
