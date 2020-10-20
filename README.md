@@ -1,8 +1,8 @@
-# image-kit
+# browser-image-kit
 
 everything for image in the browser
 
-<p align="center">
+<p>
   <img src="https://img.shields.io/badge/-ES%20module-blue" alt="ES module">
   <img src="https://img.shields.io/badge/-Browser%20only-blue" alt="Browser only">
   <img src="https://img.shields.io/badge/-TypeScript-blue" alt="TypeScript Support">
@@ -17,3 +17,8 @@ everything for image in the browser
     <img src="https://img.shields.io/bundlephobia/min/browser-image-kit" alt="Size">
   </a>
 </p>
+
+## Q&A
+
+1. 想控制生成图片的文件大小？
+   可以结合 `quality` 和 `scaling` 或者 `width/height` 实现
