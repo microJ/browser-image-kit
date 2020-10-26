@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      相对 pathname 路径图片：
+      <img src="image.jpg" width="120" />
+      <img src="./image.jpg" width="120" />
+      <img src="../test/image.jpg" width="120" />
+      相对 / 路径图片：
+      <img src="/test/image.jpg" width="120" />
+
+      <!-- checkWebpSupport -->
+      <p>是否支持 webp: {{isWebpSupport}}</p>
+
+      <!-- convertImage2Base64 -->
+      <div>
+        原图：{{originSize}}
+        <img width="640" :src="originImg" />
+        base64:{{base64Size}}
+        <img width="640" :src="base64Img" />
+      </div>
+
+      <!-- convertCORSImage2DOMString -->
+    </div>
+
+    <script type="module">
+      import {} from "./index.js"
+    </script>
+  </body>
+</html>

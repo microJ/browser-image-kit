@@ -1,45 +1,4 @@
-interface toDataURLImageTypesMap {
-    jpeg: "jpeg";
-    png: "png";
-    webp: "webp";
-}
-declare type toDataURLImageType = keyof toDataURLImageTypesMap;
-declare type DOMString = string;
-declare type url = string;
-declare type base64String = string;
-declare class ConvertImage2Base64Options {
-    /**
-     * target image type
-     * 将图片转换后的目标类型
-     */
-    type: toDataURLImageType;
-    /**
-     * image size scaling factor
-     * default is 1
-     * 指定转换后的图片的大小缩放比例。默认值 1
-     */
-    scaling: number;
-    /**
-     * set target image width
-     * higher priority than scaling
-     * 指定转换后的图片的宽度
-     * 优先级比 scaling 高
-     */
-    width: number | undefined;
-    /**
-     * set target image height
-     * higher priority than scaling
-     * 指定转换后的图片的高度
-     * 优先级比 scaling 高
-     */
-    height: number | undefined;
-    /**
-     * a Number between 0 and 1 indicating the image quality to use for image formats
-     * default is 0.92
-     * 画质压缩参数。取值范围 0-1，默认值 0.92
-     */
-    quality: number;
-}
+import { base64String, ConvertImage2Base64Options, ObjectURL, FetchImageOptions, ImageSize, url } from "./types.t";
 /**
  * whether browser support webp
  * 判断浏览器是否支持 webp
@@ -48,7 +7,7 @@ export declare const checkWebpSupport: () => boolean;
 /**
  * Receive the image url and return a base64 string
  * 将图片利用 canvas 转换为 base64
- * 使用场景：iOS bg-image 兼容性处理、图片大小压缩
+ * 使用场景举例：兼容性处理、图片大小压缩
  * @param imgUrl 图片地址。响应头一定要包含 Access-Control-Allow-Origin
  * @param options 配置参数
  */
@@ -62,12 +21,52 @@ export declare function convertImage2Base64(imgUrl: url, options?: Partial<Conve
  */
 export declare function convertSameOriginImageDOM2Base64(img: HTMLImageElement, options: ConvertImage2Base64Options): base64String;
 /**
- * conver CORS image to DOMString
- * The DOMString will be automatically recycled when the asynchronous function ends. If you need to manually recycle, please pass in the parameter autoFreeDOMString=false, and manually recycle the DOMString
- * 将跨域的网络图片转换为 DOMString 地址。
- * 该异步函数结束时会自动回收该 DOMString，如果需要手动回收，请传入参数 autoFreeDOMString=false，并手动回收该 DOMString
+ *
  * @param url 图片地址
- * @param autoFreeDOMString 默认为 true，自动释放 DOMString 内存引用，使用 setTimeout 异步执行。如果传入 false，需要手动执行 URL.revokeObjectURL(imgDOMString) 释放内存
  */
-export declare function convertCORSImage2DOMString(url: url, autoFreeDOMString?: boolean): Promise<DOMString>;
-export {};
+export declare function fetchImage(url: url, { responseType }?: Partial<FetchImageOptions>): Promise<Blob>;
+/**
+ * conver image to Blob
+ * 将网络图片转换为 Blob，可以解决图片跨域绘制问题
+ * @param url 图片地址
+ */
+export declare function convertImage2Blob(url: url | base64String): Promise<Blob>;
+/**
+ * conver image to ArrayBuffer
+ * 将网络图片转换为 ArrayBuffer
+ * @param url 图片地址
+ */
+export declare function convertImage2ArrayBuffer(url: url): Promise<Blob>;
+/**
+ * conver CORS image to ObjectURL
+ * The ObjectURL will be automatically recycled when the asynchronous function ends. If you need to manually recycle, please pass in the parameter autoFreeObjectURL=false, and manually recycle the ObjectURL
+ * 将跨域的网络图片转换为 ObjectURL 地址。
+ * 该异步函数结束时会自动回收该 ObjectURL，如果需要手动回收，请传入参数 autoFreeObjectURL=false，并手动回收该 ObjectURL
+ * @param url 图片地址
+ * @param autoFreeObjectURL 默认为 true，自动释放 ObjectURL 内存引用，使用 setTimeout 异步执行。如果传入 false，需要手动执行 URL.revokeObjectURL(imgObjectURL) 释放内存
+ */
+export declare function convertCORSImage2ObjectURL(url: url, autoFreeObjectURL?: boolean): Promise<ObjectURL>;
+/**
+ * 创建一个 HTMLImageElement
+ * @param src
+ */
+export declare function createImgEl(src?: url | base64String): HTMLImageElement;
+/**
+ * 加载图片
+ * @param src
+ */
+export declare function loadImage(src: url | base64String | ObjectURL): Promise<HTMLImageElement>;
+/**
+ * 获取图片文件空间大小，单位 kb
+ */
+export declare function getImageFileSize(src: url | base64String): Promise<number>;
+/**
+ * 获取图片宽高
+ */
+export declare function getImageSize(img: url | base64String | HTMLImageElement): Promise<ImageSize>;
+/**
+ * 根据 url 获取图片某个响应头的值
+ * @param url
+ * @param headersKey
+ */
+export declare function getImageResponseHeaders<T extends string>(url: url, headersKey?: T[]): Promise<Record<T, string | string[]>>;

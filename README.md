@@ -18,6 +18,8 @@ everything for image in the browser
   </a>
 </p>
 
+IE10+.
+
 ## Q&A
 
 1. 想控制生成图片的文件大小？
